@@ -44,10 +44,13 @@
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
                -->
-        <table tableName="item" domainObjectName="ItemDo" enableCountByExample="false"
+      <!--  <table tableName="item" domainObjectName="ItemDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="item_stock" domainObjectName="ItemStockDo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="order_info" domainObjectName="OrderDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>

@@ -93,6 +93,21 @@ public class ItemServiceImpl implements ItemService {
         ItemModel itemModel = convertModelFromDataObject(itemDo,itemStockDo);
         return itemModel;
     }
+    //保证事务一致性
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) throws BusinessException {
+        int affectedRow = itemStockDoMapper.decreaseStock(itemId,amount);
+        if (affectedRow > 0){
+            //跟新库存成功
+            return true;
+        }else {
+            //跟新库存失败
+            return false;
+        }
+
+    }
+
     private ItemModel convertModelFromDataObject(ItemDo itemDo,ItemStockDo itemStockDo){
          ItemModel itemModel = new ItemModel();
          BeanUtils.copyProperties(itemDo,itemModel);
