@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ItemServiceImpl implements ItemService {
+        public class ItemServiceImpl implements ItemService {
     @Autowired
     private ValidatorImpl validator;
     @Autowired
@@ -106,6 +106,12 @@ public class ItemServiceImpl implements ItemService {
             return false;
         }
 
+    }
+
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) throws BusinessException {
+        itemDoMapper.increaseSales(itemId,amount);
     }
 
     private ItemModel convertModelFromDataObject(ItemDo itemDo,ItemStockDo itemStockDo){

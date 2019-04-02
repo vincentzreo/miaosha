@@ -1,6 +1,7 @@
 package com.zzq.dao;
 
 import com.zzq.dataobject.ItemDo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -53,4 +54,5 @@ public interface ItemDoMapper {
      * @mbg.generated Fri Mar 29 15:55:19 CST 2019
      */
     int updateByPrimaryKey(ItemDo record);
+    int increaseSales(@Param("id") Integer id,@Param("amount") Integer amount);
 }

@@ -50,7 +50,10 @@
         <table tableName="item_stock" domainObjectName="ItemStockDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="order_info" domainObjectName="OrderDo" enableCountByExample="false"
+       <!-- <table tableName="order_info" domainObjectName="OrderDo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="sequence_info" domainObjectName="SequenceDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>

@@ -68,6 +68,8 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setId(generateOrderNo());
         OrderDo orderDo = convertFromOrderModel(orderModel);
         orderDoMapper.insertSelective(orderDo);
+        //怎加商品的销量
+        itemService.increaseSales(itemId,amount);
         //4.返回前端
 
         return orderModel;
@@ -105,6 +107,8 @@ public class OrderServiceImpl implements OrderService {
         }
         OrderDo orderDo = new OrderDo();
         BeanUtils.copyProperties(orderModel,orderDo);
+        orderDo.setItemPrice(orderModel.getItemPrice().doubleValue());
+        orderDo.setOrderPrice(orderModel.getOrderPrice().doubleValue());
         return orderDo;
     }
 }
