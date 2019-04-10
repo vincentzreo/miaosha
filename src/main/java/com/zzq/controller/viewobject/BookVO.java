@@ -1,37 +1,30 @@
-package com.zzq.service.model;
+package com.zzq.controller.viewobject;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class BookModel {
+public class BookVO {
     private Integer id;
     //书名
-    @NotBlank(message = "书名不能为空")
     private String title;
     //作者
-    @NotBlank(message = "作者不能为空")
     private String auther;
     //出版社
-    @NotBlank(message = "出版社不能为空")
     private String press;
     //价格
-    @NotNull(message = "价格不能为空")
-    @Min(value = 0,message = "价格必须大于0")
+
     private BigDecimal price;
 
     //库存
-    @NotNull(message = "库存不能为空")
     private Integer stock;
 
     //描述
-    @NotBlank(message = "描述不能为空")
     private String description;
     //销量
     private Integer sales;
     //图片的url
-    @NotBlank(message = "图片信息不能为空")
     private String imgUrl;
 
     public Integer getId() {
