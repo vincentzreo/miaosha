@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-        public class ItemServiceImpl implements ItemService {
+public class ItemServiceImpl implements ItemService {
     @Autowired
     private ValidatorImpl validator;
     @Autowired

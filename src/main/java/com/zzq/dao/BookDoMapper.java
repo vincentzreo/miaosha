@@ -2,6 +2,7 @@ package com.zzq.dao;
 
 import com.zzq.dataobject.BookDo;
 import com.zzq.service.model.BookModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -54,4 +55,5 @@ public interface BookDoMapper {
      * @mbg.generated Wed Apr 10 14:06:20 CST 2019
      */
     int updateByPrimaryKey(BookDo record);
+    int increaseSales(@Param("id") Integer id, @Param("amount") Integer amount);
 }

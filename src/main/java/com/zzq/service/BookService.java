@@ -12,4 +12,8 @@ public interface BookService {
     List<BookModel> listBook();
     //详情浏览
     BookModel getBookById(Integer id);
+    //库存扣减
+    boolean decreaseStock(Integer bookId,Integer amount) throws BusinessException;
+    //销量增加
+    void increaseSales(Integer bookId,Integer amount) throws BusinessException;
 }

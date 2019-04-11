@@ -95,6 +95,26 @@ public class BookServiceImpl implements BookService {
         BookModel bookModel = this.convertModelFromDataObject(bookDo,bookStockDo);
         return bookModel;
     }
+
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer bookId, Integer amount) throws BusinessException {
+        int affectedRow = bookStockDoMapper.decreaseStock(bookId,amount);
+        if (affectedRow > 0){
+            //跟新库存成功
+            return true;
+        }else {
+            //跟新库存失败
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void increaseSales(Integer bookId, Integer amount) throws BusinessException {
+        bookDoMapper.increaseSales(bookId,amount);
+    }
+
     private BookModel convertModelFromDataObject(BookDo bookDo,BookStockDo bookStockDo){
         BookModel bookModel = new BookModel();
         BeanUtils.copyProperties(bookDo,bookModel);
