@@ -72,16 +72,17 @@ public class UserController extends BaseController {
         return CommonReturnType.create(userVO);
     }
     //获取用户订单详情
-    @RequestMapping(value = "/orderinfo",method = {RequestMethod.POST})
+    @RequestMapping(value = "/orderinfo",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
     @ResponseBody
-    public CommonReturnType userorderInfo(@RequestParam(name = "id")Integer id) throws BusinessException{
+    public CommonReturnType userorderInfo() throws BusinessException{
         //获取用户的登录信息
-        /*Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (isLogin == null || !isLogin.booleanValue()){
             throw new BusinessException(EmBusinessError.USER_NOT_LOGIN,"用户未登录");
         }
-        UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");*/
-        List<OrderModel> orderModelList = userService.orderInfo(id);
+        UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+
+        List<OrderModel> orderModelList = userService.orderInfo(userModel.getId());
         List<OrderVO> orderVOList = orderModelList.stream().map(orderModel -> {
             OrderVO orderVO = this.convertVOFromOrderModel(orderModel);
             return orderVO;
