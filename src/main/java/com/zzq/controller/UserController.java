@@ -2,11 +2,13 @@ package com.zzq.controller;
 
 import com.alibaba.druid.util.StringUtils;
 
+import com.zzq.controller.viewobject.OrderVO;
 import com.zzq.controller.viewobject.UserVO;
 import com.zzq.error.BusinessException;
 import com.zzq.error.EmBusinessError;
 import com.zzq.response.CommonReturnType;
 import com.zzq.service.UserService;
+import com.zzq.service.model.OrderModel;
 import com.zzq.service.model.UserModel;
 
 import org.springframework.beans.BeanUtils;
@@ -18,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Controller("user")
 @RequestMapping("/user")
@@ -50,6 +49,32 @@ public class UserController extends BaseController {
         this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
         return CommonReturnType.create(null);
     }
+    //用户信息接口
+    @RequestMapping(value = "/info",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType userInfo() throws BusinessException {
+        //获取用户的登录信息
+        Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (isLogin == null || !isLogin.booleanValue()){
+            throw new BusinessException(EmBusinessError.USER_NOT_LOGIN,"用户未登录");
+        }
+        UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        UserVO userVO = conventFromModel(userModel);
+        return CommonReturnType.create(userVO);
+    }
+    //获取用户订单详情
+    @RequestMapping(value = "/orderinfo",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType userorderInfo(@RequestParam(name = "id")Integer id) throws BusinessException{
+        //获取用户的登录信息
+        /*Boolean isLogin = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if (isLogin == null || !isLogin.booleanValue()){
+            throw new BusinessException(EmBusinessError.USER_NOT_LOGIN,"用户未登录");
+        }
+        UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");*/
+        List<OrderModel> orderModelList = userService.orderInfo(id);
+        return CommonReturnType.create(orderModelList);
+    }
 
     //用户注册接口
     @RequestMapping(value = "/register",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FROMED})
@@ -76,6 +101,22 @@ public class UserController extends BaseController {
         userModel.setEncrptPassword(password);
         userService.register(userModel);
         return CommonReturnType.create(null);
+    }
+    //用户信息修改
+    @RequestMapping(value = "/recomposeinfo",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType recomposeInfo(@RequestParam(name = "name") String name,
+                                          @RequestParam(name = "gender") Integer gender,
+                                          @RequestParam(name = "age") Integer age,
+                                          @RequestParam(name = "telphone") String telphone) throws BusinessException {
+        UserModel userModel = new UserModel();
+        userModel.setName(name);
+        userModel.setAge(age);
+        userModel.setGender(new Byte(String.valueOf(gender.intValue())));
+        userModel.setTelphone(telphone);
+        UserModel userModel1 = userService.recomposeUserInfo(userModel);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel1);
+        return CommonReturnType.create(userModel1);
     }
 
     //用户获取otp短信接口
