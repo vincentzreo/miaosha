@@ -4,6 +4,10 @@ import com.alibaba.druid.util.StringUtils;
 
 import com.zzq.controller.viewobject.OrderVO;
 import com.zzq.controller.viewobject.UserVO;
+import com.zzq.dao.BookDoMapper;
+import com.zzq.dao.UserDOMapper;
+import com.zzq.dataobject.BookDo;
+import com.zzq.dataobject.UserDO;
 import com.zzq.error.BusinessException;
 import com.zzq.error.EmBusinessError;
 import com.zzq.response.CommonReturnType;
@@ -21,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller("user")
 @RequestMapping("/user")
@@ -31,6 +36,10 @@ public class UserController extends BaseController {
 
     @Autowired
     private HttpServletRequest httpServletRequest;
+    @Autowired
+    private UserDOMapper userDOMapper;
+    @Autowired
+    private BookDoMapper bookDoMapper;
 
     //用户登录接口
     @RequestMapping(value = "/login",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FROMED})
@@ -73,7 +82,25 @@ public class UserController extends BaseController {
         }
         UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");*/
         List<OrderModel> orderModelList = userService.orderInfo(id);
-        return CommonReturnType.create(orderModelList);
+        List<OrderVO> orderVOList = orderModelList.stream().map(orderModel -> {
+            OrderVO orderVO = this.convertVOFromOrderModel(orderModel);
+            return orderVO;
+        }).collect(Collectors.toList());
+        return CommonReturnType.create(orderVOList);
+    }
+    public OrderVO convertVOFromOrderModel(OrderModel orderModel){
+        if (orderModel == null){
+            return null;
+        }
+        OrderVO orderVO = new OrderVO();
+        orderVO.setId(orderModel.getId());
+        UserDO userDO = userDOMapper.selectByPrimaryKey(orderModel.getUserId());
+        BookDo bookDo = bookDoMapper.selectByPrimaryKey(orderModel.getItemId());
+        orderVO.setUserName(userDO.getName());
+        orderVO.setBookName(bookDo.getTitle());
+        orderVO.setPrice(orderModel.getOrderPrice());
+        return orderVO;
+
     }
 
     //用户注册接口

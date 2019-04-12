@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserService {
         }
         OrderModel orderModel = new OrderModel();
         BeanUtils.copyProperties(orderDo,orderModel);
-        orderModel.setOrderPrice(new BigDecimal(orderDo.getOrderPrice()));
+        orderModel.setOrderPrice(new BigDecimal(orderDo.getOrderPrice().doubleValue()));
         orderModel.setItemPrice(new BigDecimal(orderDo.getItemPrice()));
         return orderModel;
     }
