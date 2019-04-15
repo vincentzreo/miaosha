@@ -20,6 +20,17 @@ public class BookModel {
     @NotNull(message = "价格不能为空")
     @Min(value = 0,message = "价格必须大于0")
     private BigDecimal price;
+    //类别
+    @NotBlank(message = "图书类别不能为空")
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     //库存
     @NotNull(message = "库存不能为空")
