@@ -29,6 +29,7 @@ public class BookController extends BaseController {
                                        @RequestParam(name = "price") BigDecimal price,
                                        @RequestParam(name = "description")String description,
                                        @RequestParam(name = "stock")Integer stock,
+                                       @RequestParam(name = "category")String category,
                                        @RequestParam(name = "imgUrl")String imgUrl) throws BusinessException {
         //封装service请求用来创建图书
         BookModel bookModel = new BookModel();
@@ -39,6 +40,7 @@ public class BookController extends BaseController {
         bookModel.setDescription(description);
         bookModel.setStock(stock);
         bookModel.setImgUrl(imgUrl);
+        bookModel.setCategory(category);
         BookModel bookModelForReturn = bookService.createBook(bookModel);
         BookVO bookVO = convertVOFromModel(bookModelForReturn);
         return CommonReturnType.create(bookVO);
