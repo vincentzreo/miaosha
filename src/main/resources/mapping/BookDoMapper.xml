@@ -36,6 +36,27 @@
     from book
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByTitle" parameterType="java.lang.String" resultMap="BaseResultMap" >
+
+    select
+    <include refid="Base_Column_List" />
+    from book
+    where title = #{title,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAuther" resultMap="BaseResultMap" >
+
+    select
+    <include refid="Base_Column_List" />
+    from book
+    where auther = #{auther,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCategory" resultMap="BaseResultMap" >
+
+    select
+    <include refid="Base_Column_List" />
+    from book
+    where category = #{category,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

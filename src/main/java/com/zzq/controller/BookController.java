@@ -53,6 +53,37 @@ public class BookController extends BaseController {
         BookVO bookVO = convertVOFromModel(bookModel);
         return CommonReturnType.create(bookVO);
     }
+    //通过书名搜索图书
+    @RequestMapping(value = "/getbytitle",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType getBookByTitle(@RequestParam(name = "title")String title){
+        BookModel bookModel = bookService.getBookByTitle(title);
+        BookVO bookVO = convertVOFromModel(bookModel);
+        return CommonReturnType.create(bookVO);
+    }
+    //通过作者来搜索图书
+    @RequestMapping(value = "/getbyauther",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType getBookByAuther(@RequestParam(name = "auther") String auther){
+        List<BookModel> bookModelList = bookService.getBookByAuther(auther);
+        //使用stream api 将list内的bookModel转化为BOOKVO;
+        List<BookVO> bookVOList = bookModelList.stream().map(bookModel -> {
+            BookVO bookVO = this.convertVOFromModel(bookModel);
+            return bookVO;
+        }).collect(Collectors.toList());
+        return CommonReturnType.create(bookVOList);
+    }
+    //通过图书分类来搜索图书
+    @RequestMapping(value = "/listbycate",method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType listBookBycate(@RequestParam(name = "category") String category){
+        List<BookModel> bookModelList = bookService.getBookByCategory(category);
+        List<BookVO> bookVOList = bookModelList.stream().map(bookModel -> {
+            BookVO bookVO = this.convertVOFromModel(bookModel);
+            return bookVO;
+        }).collect(Collectors.toList());
+        return CommonReturnType.create(bookVOList);
+    }
     //图书列表页面浏览
     @RequestMapping(value = "/list",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
     @ResponseBody
@@ -64,6 +95,13 @@ public class BookController extends BaseController {
             return bookVO;
         }).collect(Collectors.toList());
         return CommonReturnType.create(bookVOList);
+    }
+    //图书类别浏览
+    @RequestMapping(value = "/catelist",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType listcate(){
+        List<String> cateList = bookService.getcategory();
+        return CommonReturnType.create(cateList);
     }
     private BookVO convertVOFromModel(BookModel bookModel){
         if (bookModel == null){

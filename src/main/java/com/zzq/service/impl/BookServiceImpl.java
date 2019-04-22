@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +82,21 @@ public class BookServiceImpl implements BookService {
         }).collect(Collectors.toList());
         return bookModelList;
     }
-
+    @Override
+    public List<String> getcategory() {
+        List<BookDo> bookDoList = bookDoMapper.listBook();
+        List<String> categorylist = new ArrayList<>();
+        for (BookDo bookDo : bookDoList){
+            categorylist.add(bookDo.getCategory());
+        }
+        return removeDuplicate(categorylist);
+    }
+    private static List removeDuplicate(List list){
+        HashSet h = new HashSet(list);
+        list.clear();
+        list.addAll(h);
+        return list;
+    }
     @Override
     public BookModel getBookById(Integer id) {
         BookDo bookDo = bookDoMapper.selectByPrimaryKey(id);
@@ -95,6 +111,40 @@ public class BookServiceImpl implements BookService {
         BookModel bookModel = this.convertModelFromDataObject(bookDo,bookStockDo);
         return bookModel;
     }
+
+    @Override
+    public BookModel getBookByTitle(String title) {
+        BookDo bookDo = bookDoMapper.selectByTitle(title);
+        if (bookDo == null){
+            return null;
+        }
+        BookStockDo bookStockDo = bookStockDoMapper.selectByBookId(bookDo.getId());
+        BookModel bookModel = this.convertModelFromDataObject(bookDo,bookStockDo);
+        return bookModel;
+    }
+
+    @Override
+    public List<BookModel> getBookByAuther(String auther) {
+        List<BookDo> bookDoList = bookDoMapper.selectByAuther(auther);
+        List<BookModel> bookModelList = bookDoList.stream().map(bookDo -> {
+            BookStockDo bookStockDo = bookStockDoMapper.selectByBookId(bookDo.getId());
+            BookModel bookModel = this.convertModelFromDataObject(bookDo,bookStockDo);
+            return bookModel;
+        }).collect(Collectors.toList());
+        return bookModelList;
+    }
+
+    @Override
+    public List<BookModel> getBookByCategory(String category) {
+        List<BookDo> bookDoList = bookDoMapper.selectByCategory(category);
+        List<BookModel> bookModelList = bookDoList.stream().map(bookDo -> {
+            BookStockDo bookStockDo = bookStockDoMapper.selectByBookId(bookDo.getId());
+            BookModel bookModel = this.convertModelFromDataObject(bookDo,bookStockDo);
+            return bookModel;
+        }).collect(Collectors.toList());
+        return bookModelList;
+    }
+
 
     @Override
     @Transactional

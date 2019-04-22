@@ -26,6 +26,16 @@ public class BookVO {
     private Integer sales;
     //图片的url
     private String imgUrl;
+    //书籍的类别
+    private String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Integer getId() {
         return id;
