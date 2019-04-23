@@ -74,7 +74,7 @@ public class BookController extends BaseController {
         return CommonReturnType.create(bookVOList);
     }
     //通过图书分类来搜索图书
-    @RequestMapping(value = "/listbycate",method = {RequestMethod.GET})
+    @RequestMapping(value = "/listbycate",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
     @ResponseBody
     public CommonReturnType listBookBycate(@RequestParam(name = "category") String category){
         List<BookModel> bookModelList = bookService.getBookByCategory(category);
