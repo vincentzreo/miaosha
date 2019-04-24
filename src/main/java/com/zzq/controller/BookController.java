@@ -61,6 +61,19 @@ public class BookController extends BaseController {
         BookVO bookVO = convertVOFromModel(bookModel);
         return CommonReturnType.create(bookVO);
     }
+    //根据书名或作者来搜索图书
+    @RequestMapping(value = "/getbykeyword",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType getBookByKeyWord(@RequestParam(name = "keyword")String keyword){
+        List<BookModel> bookModelList = bookService.getBookByKeyword(keyword);
+        //使用stream api 将list内的bookModel转化为BOOKVO;
+        List<BookVO> bookVOList = bookModelList.stream().map(bookModel -> {
+            BookVO bookVO = this.convertVOFromModel(bookModel);
+            return bookVO;
+        }).collect(Collectors.toList());
+        return CommonReturnType.create(bookVOList);
+    }
+
     //通过作者来搜索图书
     @RequestMapping(value = "/getbyauther",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
     @ResponseBody

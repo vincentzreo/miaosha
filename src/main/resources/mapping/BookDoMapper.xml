@@ -43,6 +43,13 @@
     from book
     where title = #{title,jdbcType=VARCHAR}
   </select>
+  <select id="selectByKeyword" parameterType="java.lang.String" resultMap="BaseResultMap" >
+
+    select
+    <include refid="Base_Column_List" />
+    from book
+    where title = #{keyword,jdbcType=VARCHAR} OR auther = #{keyword,jdbcType=VARCHAR}
+  </select>
   <select id="selectByAuther" resultMap="BaseResultMap" >
 
     select

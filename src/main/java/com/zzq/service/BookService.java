@@ -12,6 +12,8 @@ public interface BookService {
     List<BookModel> listBook();
     //详情浏览
     BookModel getBookById(Integer id);
+    //根据书名或作者获取图书，因为同一作者下可能会有多本图书，所以使用list
+    List<BookModel> getBookByKeyword(String keyword);
     //根据书名获取图书
     BookModel getBookByTitle(String title);
     //根据作者搜索图书

@@ -112,6 +112,8 @@ public class BookServiceImpl implements BookService {
         return bookModel;
     }
 
+
+
     @Override
     public BookModel getBookByTitle(String title) {
         BookDo bookDo = bookDoMapper.selectByTitle(title);
@@ -145,6 +147,16 @@ public class BookServiceImpl implements BookService {
         return bookModelList;
     }
 
+    @Override
+    public List<BookModel> getBookByKeyword(String keyword) {
+        List<BookDo> bookDoList = bookDoMapper.selectByKeyword(keyword);
+        List<BookModel> bookModelList = bookDoList.stream().map(bookDo -> {
+            BookStockDo bookStockDo = bookStockDoMapper.selectByBookId(bookDo.getId());
+            BookModel bookModel = this.convertModelFromDataObject(bookDo,bookStockDo);
+            return bookModel;
+        }).collect(Collectors.toList());
+        return bookModelList;
+    }
 
     @Override
     @Transactional
