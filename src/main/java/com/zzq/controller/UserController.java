@@ -96,7 +96,10 @@ public class UserController extends BaseController {
         BookDo bookDo = bookDoMapper.selectByPrimaryKey(orderModel.getItemId());
         orderVO.setUserName(userDO.getName());
         orderVO.setBookName(bookDo.getTitle());
+        orderVO.setImgUrl(bookDo.getImgUrl());
         orderVO.setPrice(orderModel.getOrderPrice());
+        orderVO.setAmount(orderModel.getAmount());
+        orderVO.setBookid(bookDo.getId());
         return orderVO;
 
     }

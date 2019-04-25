@@ -7,6 +7,33 @@ public class OrderVO {
     private String userName;
     private String bookName;
     private BigDecimal price;
+    private Integer amount;
+    private String imgUrl;
+    private Integer bookid;
+
+    public Integer getBookid() {
+        return bookid;
+    }
+
+    public void setBookid(Integer bookid) {
+        this.bookid = bookid;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
 
     public String getId() {
         return id;
