@@ -34,4 +34,10 @@ public class OrderController extends BaseController {
         OrderModel orderModel = orderService.createOrder(userModel.getId(),bookId,amount);
         return CommonReturnType.create(null);
     }
+    @RequestMapping(value = "/deleteorder",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType deleteOrder(@RequestParam(name = "id")String id){
+        orderService.deleteOrder(id);
+        return CommonReturnType.create(null);
+    }
 }

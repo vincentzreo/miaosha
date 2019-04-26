@@ -82,6 +82,17 @@ public class OrderServiceImpl implements OrderService {
         return orderModel;
     }
 
+    @Override
+    public void deleteOrder(String id) {
+        OrderDo orderDo = orderDoMapper.selectByPrimaryKey(id);
+        if (orderDo == null){
+            return;
+        }
+        orderDoMapper.deleteByPrimaryKey(id);
+
+
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     private String generateOrderNo(){
         //订单号有16位
