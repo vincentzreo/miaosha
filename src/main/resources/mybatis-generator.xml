@@ -65,7 +65,10 @@
         <!--<table tableName="check_info" domainObjectName="CheckDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="check_detail" domainObjectName="CheckDetailDo" enableCountByExample="false"
+       <!-- <table tableName="check_detail" domainObjectName="CheckDetailDo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="admin_user" domainObjectName="AdminDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
