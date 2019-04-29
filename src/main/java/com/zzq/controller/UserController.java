@@ -165,6 +165,17 @@ public class UserController extends BaseController {
 
         return CommonReturnType.create(null);
     }
+    //用户信息列表
+    @RequestMapping(value = "/list",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType listUser(){
+        List<UserModel> userModelList = userService.listUser();
+        List<UserVO> userVOList = userModelList.stream().map(userModel -> {
+            UserVO userVO = this.conventFromModel(userModel);
+            return userVO;
+        }).collect(Collectors.toList());
+        return CommonReturnType.create(userVOList);
+    }
 
     @RequestMapping("/get")
     @ResponseBody

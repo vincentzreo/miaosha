@@ -1,5 +1,6 @@
 package com.zzq.service;
 
+import com.zzq.dataobject.BookDo;
 import com.zzq.error.BusinessException;
 import com.zzq.service.model.BookModel;
 
@@ -26,4 +27,8 @@ public interface BookService {
     boolean decreaseStock(Integer bookId,Integer amount) throws BusinessException;
     //销量增加
     void increaseSales(Integer bookId,Integer amount) throws BusinessException;
+    //删除图书
+    void deleteBook(Integer id);
+    //修改图书信息
+    BookModel updateBook(BookModel bookModel);
 }

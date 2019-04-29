@@ -3,15 +3,14 @@ package com.zzq.service.impl;
 import com.zzq.dao.CheckDetailDoMapper;
 import com.zzq.dao.CheckDoMapper;
 import com.zzq.dao.OrderDoMapper;
-import com.zzq.dataobject.BookDo;
 import com.zzq.dataobject.CheckDetailDo;
 import com.zzq.dataobject.CheckDo;
 import com.zzq.dataobject.OrderDo;
 import com.zzq.error.BusinessException;
 import com.zzq.error.EmBusinessError;
 import com.zzq.service.CheckService;
+import com.zzq.service.model.CheckDetailModel;
 import com.zzq.service.model.CheckModel;
-import com.zzq.service.model.OrderModel;
 import com.zzq.service.model.UserModel;
 import com.zzq.validator.ValidationResult;
 import com.zzq.validator.ValidatorImpl;
@@ -55,6 +54,7 @@ public class CheckServiceImpl implements CheckService {
         List<OrderDo> orderDoList = orderDoMapper.selectByUserId(userModel.getId());
         List<CheckDetailDo> checkDetailDoList = orderDoList.stream().map(orderDo -> {
             CheckDetailDo checkDetailDo = convertDOfromDO(orderDo);
+            checkDetailDo.setInfoId(checkDo.getId());
             return checkDetailDo;
         }).collect(Collectors.toList());
         for (int i = 0 ; i < checkDetailDoList.size();i ++){
@@ -63,6 +63,26 @@ public class CheckServiceImpl implements CheckService {
         orderDoMapper.deleteByUserId(userModel.getId());
         return checkModel;
     }
+
+    @Override
+    public List<CheckDo> listCheck() {
+        List<CheckDo> checkDoList = checkDoMapper.listCheck();
+        return checkDoList;
+    }
+
+    @Override
+    public void fahuo(Integer id) {
+        CheckDo checkDo = checkDoMapper.selectByPrimaryKey(id);
+        checkDo.setIsFahuo(1);
+        checkDoMapper.updateByPrimaryKeySelective(checkDo);
+    }
+
+    @Override
+    public List<CheckDetailModel> get(Integer id) {
+        CheckDo checkDo = checkDoMapper.selectByPrimaryKey(id);
+        return null;
+    }
+
     private CheckDetailDo convertDOfromDO(OrderDo orderDo){
         CheckDetailDo checkDetailDo = new CheckDetailDo();
         BeanUtils.copyProperties(orderDo,checkDetailDo);

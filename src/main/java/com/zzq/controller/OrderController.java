@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller("order")
 @RequestMapping("/order")
@@ -39,5 +40,11 @@ public class OrderController extends BaseController {
     public CommonReturnType deleteOrder(@RequestParam(name = "id")String id){
         orderService.deleteOrder(id);
         return CommonReturnType.create(null);
+    }
+    @RequestMapping(value = "/list",method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType listOrder(){
+        List<OrderModel> orderModelList = orderService.listOrder();
+        return CommonReturnType.create(orderModelList);
     }
 }

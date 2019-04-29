@@ -62,14 +62,17 @@
         <!--<table tableName="book_stock" domainObjectName="BookStockDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="check_info" domainObjectName="CheckDo" enableCountByExample="false"
+        <table tableName="check_info" domainObjectName="CheckDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>
        <!-- <table tableName="check_detail" domainObjectName="CheckDetailDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <table tableName="admin_user" domainObjectName="AdminDo" enableCountByExample="false"
+       <!-- <table tableName="admin_user" domainObjectName="AdminDo" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="buy_info" domainObjectName="BuyDo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

@@ -148,6 +148,18 @@ public class UserServiceImpl implements UserService {
         }).collect(Collectors.toList());
         return orderModels;
     }
+
+    @Override
+    public List<UserModel> listUser() {
+        List<UserDO> userDOList = userDOMapper.listUser();
+        List<UserModel> userModelList = userDOList.stream().map(userDO -> {
+            UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
+            UserModel userModel = this.conventFromDataObhect(userDO,userPasswordDO);
+            return userModel;
+        }).collect(Collectors.toList());
+        return userModelList;
+    }
+
     private OrderModel convertFromDataObject(OrderDo orderDo){
         if (orderDo == null){
             return null;

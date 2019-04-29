@@ -97,6 +97,40 @@ public class BookController extends BaseController {
         }).collect(Collectors.toList());
         return CommonReturnType.create(bookVOList);
     }
+    //管理员删除图书
+    @RequestMapping(value = "/delete",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType delete(@RequestParam(name = "id")Integer id){
+        bookService.deleteBook(id);
+        return CommonReturnType.create(null);
+
+    }
+    //管理员修改图书信息
+    @RequestMapping(value = "/update",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType update(@RequestParam(name = "title")String title,
+                                   @RequestParam(name = "auther")String auther,
+                                   @RequestParam(name = "press")String press,
+                                   @RequestParam(name = "price") BigDecimal price,
+                                   @RequestParam(name = "description")String description,
+                                   @RequestParam(name = "stock")Integer stock,
+                                   @RequestParam(name = "category")String category,
+                                   @RequestParam(name = "id")Integer id,
+                                   @RequestParam(name = "sales")Integer sales
+                                   ){
+        BookModel bookModel = new BookModel();
+        bookModel.setId(id);
+        bookModel.setCategory(category);
+        bookModel.setStock(stock);
+        bookModel.setDescription(description);
+        bookModel.setPrice(price);
+        bookModel.setPress(press);
+        bookModel.setAuther(auther);
+        bookModel.setTitle(title);
+        bookModel.setSales(sales);
+        BookModel bookModel1 = bookService.updateBook(bookModel);
+        return CommonReturnType.create(bookModel1);
+    }
     //图书列表页面浏览
     @RequestMapping(value = "/list",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
     @ResponseBody

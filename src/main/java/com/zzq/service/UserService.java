@@ -16,4 +16,6 @@ public interface UserService {
     UserModel recomposeUserInfo(UserModel userModel) throws BusinessException;
     //查看用户订单
     List<OrderModel> orderInfo(Integer id);
+    //用户信息列表
+    List<UserModel> listUser();
 }

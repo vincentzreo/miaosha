@@ -2,33 +2,29 @@ package com.zzq.service.model;
 
 import java.math.BigDecimal;
 
-public class CheckDetailModel {
-    private String id;
-    //购买的用户id
+public class BuyModel {
+    private Integer id;
     private Integer userId;
-    //购买的商品id
     private Integer itemId;
-    //购买商品的单价
-    private BigDecimal itemPrice;
-    //购买数量
     private Integer amount;
-    //购买金额
     private BigDecimal orderPrice;
-    private Integer infoId;
+    private String address;
+    private Integer isFahuo;
+    private String orderId;
 
-    public Integer getInfoId() {
-        return infoId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setInfoId(Integer infoId) {
-        this.infoId = infoId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -48,14 +44,6 @@ public class CheckDetailModel {
         this.itemId = itemId;
     }
 
-    public BigDecimal getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(BigDecimal itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
     public Integer getAmount() {
         return amount;
     }
@@ -70,5 +58,21 @@ public class CheckDetailModel {
 
     public void setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getIsFahuo() {
+        return isFahuo;
+    }
+
+    public void setIsFahuo(Integer isFahuo) {
+        this.isFahuo = isFahuo;
     }
 }

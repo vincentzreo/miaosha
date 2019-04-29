@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -93,6 +95,16 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public List<OrderModel> listOrder() {
+        List<OrderDo> orderDoList = orderDoMapper.listOrder();
+        List<OrderModel> orderModelList = orderDoList.stream().map(orderDo -> {
+            OrderModel orderModel = this.convertFromOrderDo(orderDo);
+            return orderModel;
+        }).collect(Collectors.toList());
+        return orderModelList;
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     private String generateOrderNo(){
         //订单号有16位
@@ -128,5 +140,15 @@ public class OrderServiceImpl implements OrderService {
         orderDo.setItemPrice(orderModel.getItemPrice().doubleValue());
         orderDo.setOrderPrice(orderModel.getOrderPrice().doubleValue());
         return orderDo;
+    }
+    private OrderModel convertFromOrderDo(OrderDo orderDo){
+        if (orderDo == null){
+            return null;
+        }
+        OrderModel orderModel = new OrderModel();
+        BeanUtils.copyProperties(orderDo,orderModel);
+        orderModel.setItemPrice(new BigDecimal(orderDo.getItemPrice()));
+        orderModel.setOrderPrice(new BigDecimal(orderDo.getOrderPrice()));
+        return orderModel;
     }
 }

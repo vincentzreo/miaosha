@@ -1,5 +1,6 @@
 package com.zzq.controller;
 
+import com.zzq.dataobject.CheckDo;
 import com.zzq.error.BusinessException;
 import com.zzq.error.EmBusinessError;
 import com.zzq.response.CommonReturnType;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.zzq.controller.BaseController.CONTENT_TYPE_FROMED;
 
@@ -41,5 +43,19 @@ public class CheckController {
         checkModel.setPrice(price);
         CheckModel checkModel1 = checkService.createCheck(checkModel,userModel);
         return CommonReturnType.create(checkModel1);
+    }
+    //查看所有支付单
+    @RequestMapping(value = "/list",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType listcheck(){
+        List<CheckDo> checkDoList = checkService.listCheck();
+        return CommonReturnType.create(checkDoList);
+    }
+    //发货
+    @RequestMapping(value = "/fahuo",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType fahuo(@RequestParam(name = "id")Integer id){
+        checkService.fahuo(id);
+        return CommonReturnType.create(null);
     }
 }

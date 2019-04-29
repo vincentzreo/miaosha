@@ -177,6 +177,34 @@ public class BookServiceImpl implements BookService {
         bookDoMapper.increaseSales(bookId,amount);
     }
 
+    @Override
+    public void deleteBook(Integer id) {
+        BookDo bookDo = bookDoMapper.selectByPrimaryKey(id);
+        if (bookDo == null){
+            return;
+        }
+        BookStockDo bookStockDo = bookStockDoMapper.selectByBookId(bookDo.getId());
+        bookDoMapper.deleteByPrimaryKey(bookDo.getId());
+        bookStockDoMapper.deleteByPrimaryKey(bookStockDo.getId());
+    }
+
+    @Override
+    public BookModel updateBook(BookModel bookModel) {
+        if (bookModel == null){
+            return null;
+        }
+        BookDo bookDo = this.convertBookDoFromBookModel(bookModel);
+        BookStockDo bookStockDo = bookStockDoMapper.selectByBookId(bookDo.getId());
+        bookStockDo.setStock(bookModel.getStock());
+       /* bookStockDo = this.convertBookStockDoFromBookModel(bookModel);*/
+        bookDoMapper.updateByPrimaryKeySelective(bookDo);
+        bookStockDoMapper.updateByPrimaryKeySelective(bookStockDo);
+        BookDo bookDo1 = bookDoMapper.selectByPrimaryKey(bookModel.getId());
+        BookStockDo bookStockDo1 = bookStockDoMapper.selectByBookId(bookDo1.getId());
+        BookModel bookModel1 = this.convertModelFromDataObject(bookDo1,bookStockDo1);
+        return bookModel1;
+    }
+
     private BookModel convertModelFromDataObject(BookDo bookDo,BookStockDo bookStockDo){
         BookModel bookModel = new BookModel();
         BeanUtils.copyProperties(bookDo,bookModel);
