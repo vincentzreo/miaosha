@@ -5,6 +5,7 @@ import com.zzq.error.BusinessException;
 import com.zzq.error.EmBusinessError;
 import com.zzq.response.CommonReturnType;
 import com.zzq.service.CheckService;
+import com.zzq.service.model.CheckDetailModel;
 import com.zzq.service.model.CheckModel;
 import com.zzq.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,19 @@ public class CheckController {
     public CommonReturnType fahuo(@RequestParam(name = "id")Integer id){
         checkService.fahuo(id);
         return CommonReturnType.create(null);
+    }
+    //查看订单情况
+    @RequestMapping(value = "/getcheck",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType getcheck(@RequestParam(name = "id")Integer id){
+        CheckModel checkModel = checkService.getcheck(id);
+        return CommonReturnType.create(checkModel);
+    }
+    //查看订单下的商品详情
+    @RequestMapping(value = "/getlist",method = {RequestMethod.GET},consumes = {CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType getlist(@RequestParam(name = "id")Integer id){
+        List<CheckDetailModel> checkDetailModelList = checkService.get(id);
+        return CommonReturnType.create(checkDetailModelList);
     }
 }

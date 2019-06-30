@@ -3,9 +3,11 @@ package com.zzq.service.impl;
 import com.zzq.dao.CheckDetailDoMapper;
 import com.zzq.dao.CheckDoMapper;
 import com.zzq.dao.OrderDoMapper;
+import com.zzq.dao.UserDOMapper;
 import com.zzq.dataobject.CheckDetailDo;
 import com.zzq.dataobject.CheckDo;
 import com.zzq.dataobject.OrderDo;
+import com.zzq.dataobject.UserDO;
 import com.zzq.error.BusinessException;
 import com.zzq.error.EmBusinessError;
 import com.zzq.service.CheckService;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,8 @@ public class CheckServiceImpl implements CheckService {
     private OrderDoMapper orderDoMapper;
     @Autowired
     private CheckDetailDoMapper checkDetailDoMapper;
+    @Autowired
+    private UserDOMapper userDOMapper;
     private CheckDo convertCheckDoFromCheckModel(CheckModel checkModel){
         if (checkModel == null){
             return null;
@@ -80,7 +85,26 @@ public class CheckServiceImpl implements CheckService {
     @Override
     public List<CheckDetailModel> get(Integer id) {
         CheckDo checkDo = checkDoMapper.selectByPrimaryKey(id);
-        return null;
+        List<CheckDetailDo> checkDetailDoList = checkDetailDoMapper.selectById(checkDo.getId());
+        List<CheckDetailModel> checkDetailModelList = checkDetailDoList.stream().map(checkDetailDo -> {
+            CheckDetailModel checkDetailModel = new CheckDetailModel();
+            BeanUtils.copyProperties(checkDetailDo,checkDetailModel);
+            checkDetailModel.setItemPrice(new BigDecimal(checkDetailDo.getItemPrice()));
+            checkDetailModel.setOrderPrice(new BigDecimal(checkDetailDo.getOrderPrice()));
+            return checkDetailModel;
+        }).collect(Collectors.toList());
+        return checkDetailModelList;
+    }
+
+    @Override
+    public CheckModel getcheck(Integer id) {
+        CheckDo checkDo = checkDoMapper.selectByPrimaryKey(id);
+        CheckModel checkModel = new CheckModel();
+        BeanUtils.copyProperties(checkDo,checkModel);
+        checkModel.setPrice(new BigDecimal(checkDo.getPrice()));
+        UserDO userDO =userDOMapper.selectByPrimaryKey(checkDo.getUserId());
+        checkModel.setUserName(userDO.getName());
+        return checkModel;
     }
 
     private CheckDetailDo convertDOfromDO(OrderDo orderDo){

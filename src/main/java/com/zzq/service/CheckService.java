@@ -14,5 +14,9 @@ public interface CheckService {
     //列表
     List<CheckDo> listCheck();
     void fahuo(Integer id);
+    //根据单号获取所有的商品信息
     List<CheckDetailModel> get(Integer id);
+    //根据单号获取订单情况
+    CheckModel getcheck(Integer id);
+
 }
